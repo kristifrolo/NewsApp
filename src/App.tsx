@@ -4,6 +4,7 @@ import { About } from "./pages/About"
 import { Gallery } from "./pages/Gallery"
 import { Layout } from "./components/Layout"
 import type { FC } from "react"
+import { AddPost } from "./pages/AddPost"
 
 export const App: FC = () => {
   return(
@@ -11,6 +12,7 @@ export const App: FC = () => {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="addPost" element={<AddPost />} />
           <Route path="about" element={<About />} />
           <Route path="gallery" element={<Gallery />} />
         </Route>

@@ -12,6 +12,9 @@ export const Layout: FC = () => {
             <Link to="/">Главная</Link>
           </li>
           <li>
+            <Link to="/addPost">Добавить новость</Link>
+          </li>
+          <li>
             <Link to="/gallery">Галерея</Link>
           </li>
           <li>
