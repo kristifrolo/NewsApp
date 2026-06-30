@@ -44,3 +44,30 @@
     border-color: #667eea;
   }
 }
+
+.favoriteBtn {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #f5f5f5;
+    border-color: #999;
+  }
+}
+
+.favoriteBtnActive {
+  background: #fff0f3;
+  border-color: #ff4d6d;
+  color: #ff4d6d;
+
+  &:hover {
+    background: #ffe0e6;
+  }
+}

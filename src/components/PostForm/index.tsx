@@ -1,10 +1,6 @@
 import { useState, type FC } from "react";
 import css from './styles.module.scss'
-
-interface IPostFormProps {
-  onSubmit: (data: { title: string, body: string }) => void;
-  isLoading: boolean;
-}
+import type { IPostFormProps } from "../../models/postForm";
 
 export const PostForm: FC<IPostFormProps> = ({ onSubmit, isLoading }) => {
   const [title, setTitle] = useState<string>('');

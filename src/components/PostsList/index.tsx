@@ -5,16 +5,29 @@ import css from './styles.module.scss'
 import { Pagination } from "../Pagination";
 import { setCurrentPage, setSearchQuery } from "../../store/reducers/PostsSlice";
 import { useDebounce } from "../../hooks/useDebounce";
+import { useSearchParams } from "react-router";
+import { addFavorite, removeFavorite } from "../../store/reducers/FavoritesSlice";
 
 export const PostsList: FC = () => {
   const dispatch = useAppDispatch();
   const {posts, isLoading, error, totalPages, currentPage, searchQuery} = useAppSelector(state => state.postsReducer);
+  const favoritePosts = useAppSelector(state => state.favoritesReducer.favoritePosts);
+
+  const handleSwitchFavorite = (post: typeof posts[number]) => {
+    const isFavorite = favoritePosts.some(favorite => favorite.post.id === post.id);
+    if (isFavorite) {
+      dispatch(removeFavorite(post.id));
+    } else {
+      dispatch(addFavorite(post));
+    }
+  };
   
   const handlePageChange = (page: number) => {
     dispatch(setCurrentPage(page));
   };
 
-  const [localSearch, setLocalSearch] = useState(searchQuery);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [localSearch, setLocalSearch] = useState<string>(searchParams.get('search') || '');
   const debouncedSearch = useDebounce(localSearch, 500);
 
   const handleSearch = (query: string) => {
@@ -22,7 +35,18 @@ export const PostsList: FC = () => {
   }
 
   useEffect(() => {
+    const urlSearch = searchParams.get('search') || '';
+    if (urlSearch !== localSearch) setLocalSearch(urlSearch);
+  }, [searchParams]);
+
+  useEffect(() => {
     dispatch(setSearchQuery(debouncedSearch));
+
+    if (debouncedSearch.trim()) {
+      setSearchParams({ search: debouncedSearch });
+    } else {
+      setSearchParams({});
+    }
   }, [debouncedSearch, dispatch]);
 
   useEffect(() => {
@@ -54,12 +78,22 @@ export const PostsList: FC = () => {
         ) : (
           <>
             <div className={css.list}>
-              {posts.map((post) => (
-                <div key={post.id} className={css.item}>
-                  <h2 className={css.title}>{post.title}</h2>
-                  <p className={css.body}>{post.body}</p>
-                </div>
-              ))}
+              {posts.map((post) => {
+                const isFavorite = favoritePosts.some(favorite => favorite.post.id === post.id)
+                return (
+                  <div key={post.id} className={css.item}>
+                    <h2 className={css.title}>{post.title}</h2>
+                    <p className={css.body}>{post.body}</p>
+                    <button
+                      onClick={() => handleSwitchFavorite(post)}
+                      className={`${css.favoriteBtn} ${isFavorite ? css.favoriteBtnActive : ''}`}
+                      title={isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'}
+                    >
+                      {isFavorite ? 'В избранном' : 'В избранное'}
+                    </button>
+                  </div>
+                )
+              })}
             </div>
             <Pagination 
               totalPages={totalPages} 

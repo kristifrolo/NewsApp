@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import postsReducer from './reducers/PostsSlice';
+import favoritesReducer from './reducers/FavoritesSlice';
 
 const rootReducer = combineReducers({
-  postsReducer
+  postsReducer,
+  favoritesReducer
 })
 
 export const setupStore = () => {

@@ -1,8 +1,11 @@
 import type { FC } from "react";
 import { Link, Outlet } from "react-router";
 import css from './styles.module.scss'
+import { useFavoritesSync } from "../../hooks/useFavoritesSync";
 
 export const Layout: FC = () => {
+  useFavoritesSync();
+
   return (
     <div className={css.layout}>
       <header className={css.header}>
@@ -13,6 +16,9 @@ export const Layout: FC = () => {
           </li>
           <li>
             <Link to="/addPost">Добавить новость</Link>
+          </li>
+          <li>
+            <Link to="/favorites">Избранное</Link>
           </li>
           <li>
             <Link to="/gallery">Галерея</Link>

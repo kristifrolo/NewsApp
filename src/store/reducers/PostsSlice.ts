@@ -1,17 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { IPost } from "../../models/post";
 import { addPost, fetchPosts } from "./ActionCreators";
 import { getPageCount } from "../../utils/pages";
-
-interface IPostsState {
-  posts: IPost[];
-  isLoading: boolean;
-  error: string;
-  totalPages: number;
-  currentPage: number;
-  searchQuery: string;
-  isCreating: boolean;
-}
+import type { IPostsState } from "../../models/postsState";
 
 const initialState: IPostsState = {
   posts: [],
@@ -67,5 +57,6 @@ export const postsSlice = createSlice({
   },
 })
 
-export default postsSlice.reducer;
+const postReducer = postsSlice.reducer;
+export default postReducer;
 export const { setCurrentPage, setSearchQuery } = postsSlice.actions;

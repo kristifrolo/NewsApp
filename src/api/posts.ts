@@ -1,10 +1,5 @@
+import type { ICreatePostProps, IGetPostsProps } from "../models/api";
 import type { IPost } from "../models/post";
-
-interface IGetPostsProps {
-  limit?: number;
-  page?: number;
-  searchQuery?: string;
-}
 
 export const getPosts = async (
   props?: IGetPostsProps
@@ -30,12 +25,6 @@ export const getPosts = async (
   const totalCount = Number(res.headers.get('x-total-count')) || 100;
   
   return { posts: postsData, totalCount: totalCount };
-}
-
-interface ICreatePostProps {
-  title: string;
-  body: string;
-  userId: number;
 }
 
 export const createPost = async (
